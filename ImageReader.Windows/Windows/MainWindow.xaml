@@ -1,0 +1,26 @@
+﻿<Custom:MetroWindow x:Class="ImageReader.Windows.MainWindow"
+					xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+					xmlns:Views="clr-namespace:ImageReader.Windows.Views"
+					mc:Ignorable="d"
+					Title="Image Reader"
+					Height="590"
+					Width="800"
+					BorderBrush="{DynamicResource AccentColorBrush}"
+					ResizeMode="CanResizeWithGrip"
+					WindowStartupLocation="CenterScreen"
+					MinWidth="800"
+					MinHeight="590"
+					TitleCaps="False"
+					TitleCharacterCasing="Normal"
+					TitleAlignment="Center"
+					WindowCloseButtonStyle="{DynamicResource WindowCloseButtonStyle}"
+					WindowMaxButtonStyle="{DynamicResource WindowMaximizeButtonStyle}"
+					WindowMinButtonStyle="{DynamicResource WindowMinimizeButtonStyle}">
+	<Grid>
+
+	</Grid>
+</Custom:MetroWindow>
