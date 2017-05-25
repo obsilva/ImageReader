@@ -1,83 +1,82 @@
-﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:Metro="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
-             x:Class="ImageReader.Windows.Views.OptionsMenu"
-             mc:Ignorable="d"
-             Width="713.05"
-             Height="292.546">
-    <Grid x:Name="grdMain">
-
-        <GroupBox x:Name="grpInterface"
-                  Header="Interface"
-                  Margin="10,136,0,0"
-                  VerticalAlignment="Top"
-                  HorizontalAlignment="Left"
-                  Width="693.05"
-                  Height="146.546">
-            <Grid>
-                <Button x:Name="btnLight"
-                        Content="Claro"
-                        HorizontalAlignment="Left"
-                        Height="55"
-                        Width="155"
-                        Margin="10,10,0,0"
-                        VerticalAlignment="Top"
-                        Click="ThemeButton_Click" />
-                <Button x:Name="btnDark"
-                        Content="Escuro"
-                        HorizontalAlignment="Left"
-                        Height="55"
-                        Width="155"
-                        Margin="185,10,0,0"
-                        VerticalAlignment="Top"
-                        Click="ThemeButton_Click" />
-                <ComboBox x:Name="cboColors"
-                          Margin="10,73.91,0,-3.91"
-                          ItemsSource="{x:Static Metro:ThemeManager.Accents}"
-                          HorizontalAlignment="Left"
-                          Width="330"
-                          Height="28"
-                          VerticalAlignment="Top"
-                          SelectionChanged="cboThemeColor_SelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <Label x:Name="label4"
-                       Content="Título da janela principal:"
-                       HorizontalAlignment="Left"
-                       Margin="390,23.69,0,0"
-                       VerticalAlignment="Top" />
-                <TextBox x:Name="txtApplicationTitle"
-                         Height="3.853"
-                         Margin="390,49.65,0,0"
-                         TextWrapping="Wrap"
-                         VerticalAlignment="Top"
-                         HorizontalAlignment="Left"
-                         Width="281"
-                         Custom:TextBoxHelper.ClearTextButton="True"
-                         LostFocus="ConfigurationsTextBox_LostFocus" />
-            </Grid>
-        </GroupBox>
-        <GroupBox x:Name="grpInterface_Copy"
-                  Header="FUNCIONALIDADES"
-                  Margin="10,35,0,0"
-                  VerticalAlignment="Top"
-                  HorizontalAlignment="Left"
-                  Width="693"
-                  Height="80">
-            <CheckBox x:Name="chkSpeech"
-                      Content="Ouvir texto"
-                      HorizontalAlignment="Left"
-                      Height="100"
-                      Margin="10,-30,0,-29"
-                      VerticalAlignment="Top" />
-        </GroupBox>
-    </Grid>
+﻿<UserControl x:Class="ImageReader.Windows.Views.OptionsMenu"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+			 xmlns:Metro="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
+			 mc:Ignorable="d"
+			 d:DesignHeight="300"
+			 d:DesignWidth="715">
+	<Grid x:Name="grdMain">
+		<GroupBox x:Name="grpInterface"
+				  Header="Interface"
+				  Margin="10,136,0,0"
+				  VerticalAlignment="Top"
+				  HorizontalAlignment="Left"
+				  Width="693.05"
+				  Height="146.546">
+			<Grid>
+				<Button x:Name="btnLight"
+						Content="Claro"
+						HorizontalAlignment="Left"
+						Height="55"
+						Width="155"
+						Margin="10,10,0,0"
+						VerticalAlignment="Top"
+						Click="ThemeButton_Click" />
+				<Button x:Name="btnDark"
+						Content="Escuro"
+						HorizontalAlignment="Left"
+						Height="55"
+						Width="155"
+						Margin="185,10,0,0"
+						VerticalAlignment="Top"
+						Click="ThemeButton_Click" />
+				<ComboBox x:Name="cboColors"
+						  Margin="10,73.91,0,-3.91"
+						  ItemsSource="{x:Static Metro:ThemeManager.Accents}"
+						  HorizontalAlignment="Left"
+						  Width="330"
+						  Height="28"
+						  VerticalAlignment="Top"
+						  SelectionChanged="cboThemeColor_SelectionChanged">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<Label x:Name="label4"
+					   Content="Título da janela principal:"
+					   HorizontalAlignment="Left"
+					   Margin="390,23.69,0,0"
+					   VerticalAlignment="Top" />
+				<TextBox x:Name="txtApplicationTitle"
+						 Height="3.853"
+						 Margin="390,49.65,0,0"
+						 TextWrapping="Wrap"
+						 VerticalAlignment="Top"
+						 HorizontalAlignment="Left"
+						 Width="281"
+						 Custom:TextBoxHelper.ClearTextButton="True"
+						 LostFocus="ConfigurationsTextBox_LostFocus" />
+			</Grid>
+		</GroupBox>
+		
+		<GroupBox x:Name="grpInterface_Copy"
+				  Header="FUNCIONALIDADES"
+				  Margin="10,35,0,0"
+				  VerticalAlignment="Top"
+				  HorizontalAlignment="Left"
+				  Width="693"
+				  Height="80">
+			<CheckBox x:Name="chkSpeech"
+					  Content="Ouvir texto"
+					  HorizontalAlignment="Left"
+					  Height="100"
+					  Margin="10,-30,0,-29"
+					  VerticalAlignment="Top" />
+		</GroupBox>
+	</Grid>
 </UserControl>
-

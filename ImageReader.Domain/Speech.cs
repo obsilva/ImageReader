@@ -4,23 +4,23 @@ namespace ImageReader.Domain
 {
 	public class Speech
 	{
-        public void SoletraTexto(string strTexto)
-        {
-            //Inicializa uma nova instancia
-            SpeechSynthesizer synth = new SpeechSynthesizer();
+		public void SoletraTexto(string strTexto)
+		{
+			//Inicializa uma nova instancia
+			SpeechSynthesizer synth = new SpeechSynthesizer();
 
-            //Configura a saida de audio
-            synth.SetOutputToDefaultAudioDevice();
+			//Configura a saida de audio
+			synth.SetOutputToDefaultAudioDevice();
 
-            //
-            synth.Speak(strTexto.ToString());
-        }
+			//
+			synth.Speak(strTexto.ToString());
+		}
 
-        public void Pausa()
-        {
-            //Inicializa uma nova instancia
-            SpeechSynthesizer synth = new SpeechSynthesizer();
-            synth.Pause();
-        }
-    }
+		public void Pausa()
+		{
+			//Inicializa uma nova instancia
+			SpeechSynthesizer synth = new SpeechSynthesizer();
+			synth.Pause();
+		}
+	}
 }

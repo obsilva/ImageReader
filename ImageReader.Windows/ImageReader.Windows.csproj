@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E43660D4-3277-43A7-B737-D16C4060EB20}</ProjectGuid>
+    <ProjectGuid>{14064133-39CB-4274-B750-9CF19812CEEC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ImageReader.Windows</RootNamespace>
     <AssemblyName>ImageReader.Windows</AssemblyName>
@@ -36,56 +36,44 @@
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\ImageMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OptionsMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\OptionsMenu.xaml.cs">
+      <DependentUpon>OptionsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReaderMenu.xaml.cs">
+      <DependentUpon>ReaderMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Helpers\Configuration.cs" />
     <Compile Include="Helpers\XMLApplication.cs" />
     <Compile Include="Helpers\XMLConfiguration.cs" />
     <Compile Include="Helpers\XMLPropertyApplication.cs" />
-    <Compile Include="Views\ImageMenu.xaml.cs">
-      <DependentUpon>ImageMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OptionsMenu.xaml.cs">
-      <DependentUpon>OptionsMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,9 +100,24 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Views\OptionsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReaderMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ImageReader.Domain\ImageReader.Domain.csproj">
-      <Project>{211fb597-66b8-4b63-8709-86c50d059011}</Project>
+      <Project>{67B39C77-FD72-4514-8537-EDF7732F23D4}</Project>
       <Name>ImageReader.Domain</Name>
     </ProjectReference>
   </ItemGroup>
