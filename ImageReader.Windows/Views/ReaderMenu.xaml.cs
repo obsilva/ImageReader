@@ -55,7 +55,7 @@ namespace ImageReader.Windows.Views
 			{
 				caminhoArquivo = file.FileName;
 				String textoImagem = "";
-				OCR conversor = new OCR();
+                OCR conversor = new OCR();
 				conversor.setImagem(caminhoArquivo);
 				conversor.setIdioma(this.idioma);
 
@@ -119,6 +119,13 @@ namespace ImageReader.Windows.Views
 			else
 				pausaTexto();
 		}
-		#endregion
-	}
+        #endregion
+
+        private void btnMouse_Click(object sender, RoutedEventArgs e)
+        {
+            
+            CaptureImage mouse = new CaptureImage();
+            mouse.StartMouse();
+        }
+    }
 }
