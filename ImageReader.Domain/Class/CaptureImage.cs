@@ -1,36 +1,28 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace ImageReader.Domain
 {
-    public class CaptureImage
-    {
-        //private System.Windows.Forms.OpenFileDialog svdTela;
-        private Graphics g;
+	public class ImageCapture
+	{
+		#region Methods		
+		public void Enable() => new TransparentForm().Show();
 
-        public void StartMouse()
-        {
-            TransparentForm frm = new TransparentForm();
-            frm.Show();
-        }
+		public string Capture(Point point)
+		{
+			var bitmapImage = new Bitmap(60, 30);
 
-        public string CaptImage(Point p1)
-        {
-            //armazena a imagem no bitmap
-            Bitmap b = new Bitmap(60, 30);
-            //copia  a tela no bitmap            
-            g = Graphics.FromImage(b);
-            g.CopyFromScreen(p1, new Point(0, 0), new Size(1366, 768));
-            //salva imagem
-            string strCaminho = SaveImage(b);
-            return strCaminho;
-        }
+			Graphics.FromImage(bitmapImage).CopyFromScreen(point, new Point(0, 0), new Size(1366, 768));
 
-        public string SaveImage(Bitmap img)
-        {
-            string strCaminho = System.IO.Path.GetTempPath() + "/myScreenShot.jpg";
-            img.Save(strCaminho, System.Drawing.Imaging.ImageFormat.Jpeg);
-            return strCaminho;
-        }
-    }
+			return Save(bitmapImage);
+		}
+
+		public string Save(Bitmap image)
+		{
+			string path = System.IO.Path.GetTempPath() + "imageReader.jpg";
+			image.Save(path);
+
+			return path;
+		}
+		#endregion
+	}
 }

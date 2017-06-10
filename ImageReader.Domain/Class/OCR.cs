@@ -1,76 +1,37 @@
 ﻿using System;
+using System.IO;
 using Tesseract;
 
 namespace ImageReader.Domain
 {
 	public class OCR
 	{
-		private String caminhoImagem;
-		private String idioma;
+		#region Properties
+		public string Language { get; set; }
 
-		public void setImagem(String caminho)
-		{
-			this.caminhoImagem = caminho;
-		}
-		public void setIdioma(String linguagem)
-		{
-			this.idioma = linguagem;
-		}
+		public string ImagePath { get; set; }
+		#endregion
 
-		public String extraiTextoImagem()
+		public string FromImage()
 		{
-			String textoImagem = "";
-			string err = "";
-
 			try
 			{
-				using (var engine = new TesseractEngine("C:/Users/Willyam/Desktop/OCR/ImageReader/ImageReader.Domain/bin/Debug/tessdata", idioma, EngineMode.Default))
+				using (var engine = new TesseractEngine(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory)
+					+ "tessdata", Language, EngineMode.Default))
 				{
-					using (var img = Pix.LoadFromFile(caminhoImagem))
+					using (Pix img = Pix.LoadFromFile(ImagePath))
 					{
-						using (var page = engine.Process(img))
-						{
-							textoImagem = page.GetText();
-							//lbPrecisao.Text = Convert.ToString(page.GetMeanConfidence());
-							return textoImagem;
-						}
+						using (Page page = engine.Process(img))
+						{ return page.GetText(); }
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				if (e.InnerException != null) { err = e.InnerException.Message; }
-
+				if (e.InnerException != null)
+				{ return e.InnerException.Message; }
+				return String.Empty;
 			}
-			return err;
 		}
-
-        public String ExtraiTxtUsingImg()
-        {
-            String textoImagem = "";
-            string err = "";
-
-            try
-            {
-                using (var engine = new TesseractEngine("C:/Users/Willyam/Desktop/OCR/ImageReader/ImageReader.Domain/bin/Debug/tessdata", idioma, EngineMode.Default))
-                {
-                    using (var img = Pix.LoadFromFile(caminhoImagem))
-                    {
-                        using (var page = engine.Process(img))
-                        {
-                            textoImagem = page.GetText();
-                            //lbPrecisao.Text = Convert.ToString(page.GetMeanConfidence());
-                            return textoImagem;
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                if (e.InnerException != null) { err = e.InnerException.Message; }
-
-            }
-            return err;
-        }
-    }
+	}
 }

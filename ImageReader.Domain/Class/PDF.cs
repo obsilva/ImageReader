@@ -15,93 +15,71 @@ namespace ImageReader.Domain
 			using (var reader = new PdfReader(filename))
 			{
 				var parser = new PdfReaderContentParser(reader);
-				ImageRenderListener listener = null;
-				parser.ProcessContent(pageNumber, (listener = new ImageRenderListener()));
+				var listener = new ImageRenderListener();
+
+				parser.ProcessContent(pageNumber, listener);
+
 				return listener.Images.Count > 0;
 			}
 		}
 
 		/// <summary>Extrai todas as imagens de um arquivo PDF.</summary>
-		public String extraiImagens(string caminhoArquivo, string idioma)
+		public string ExtractImage(string filePath, string language)
 		{
-			OCR tesseract = new OCR();
-			String caminhoImagem = "", extensaoImagem = "", textoImagem = "";
-			tesseract.setIdioma(idioma);
+			var tesseract = new OCR() { Language = language };
+			var imagePath = String.Empty;
+			var imageText = String.Empty;
 
-			using (var reader = new PdfReader(caminhoArquivo))
+			using (var reader = new PdfReader(filePath))
 			{
 				var parser = new PdfReaderContentParser(reader);
-				ImageRenderListener listener = null;
+				var listener = new ImageRenderListener();
 
-				for (var i = 1; i <= 2/*reader.NumberOfPages*/; i++)
+				for (var index = 1; index <= reader.NumberOfPages; index++)
 				{
-					parser.ProcessContent(i, (listener = new ImageRenderListener()));
-					var index = 1;
+					parser.ProcessContent(index, listener);
+
 					if (listener.Images.Count > 0)
 					{
-						foreach (var pair in listener.Images)
+						for (int count = 0; count < listener.Images.Count; count++)
 						{
-							caminhoImagem = System.IO.Path.GetFullPath(@"..\files\temp.png");
-							extensaoImagem = System.IO.Path.GetExtension(caminhoImagem);
-							tesseract.setImagem(caminhoImagem);
-							textoImagem += tesseract.extraiTextoImagem();
-							index++;
+							imagePath = System.IO.Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory) + "temp.png";
+							tesseract.ImagePath = imagePath;
+							imageText += tesseract.FromImage();
 						}
 					}
 				}
-				File.Delete(caminhoImagem);
-				return textoImagem;
+
+				File.Delete(imagePath);
+
+				return imageText;
 			}
 		}
 
 		/// <summary>Exporta o texto para um arquivo PDF. </summary>
-		public bool exportToPdf(string texto)
+		public bool Create(string text)
 		{
 			try
 			{
-				Document doc = new Document(PageSize.A4); //criando e estipulando o tipo da folha usada
-				doc.SetMargins(40, 40, 40, 80); //estibulando o espaçamento das margens 
-				doc.AddCreationDate(); //adicionando as configuracoes
+				var document = new Document(PageSize.A4); //criando e estipulando o tipo da folha usada
+				document.SetMargins(40, 40, 40, 80); //estibulando o espaçamento das margens 
+				document.AddCreationDate(); //adicionando as configuracoes
 
-				//caminho onde sera criado o pdf + nome desejado       
-				String caminho = System.IO.Path.GetFullPath(@"..\files");
-				caminho += "\\documentoPdf.pdf";
+				//caminho onde sera criado o pdf + nome desejado 
+				string filePath = System.IO.Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory) + "imageReader.pdf";
 
-				//criando o arquivo pdf em branco, passando como parametro a variavel doc criada acima e a variavel caminho 
-				//tambem criada acima.
-				PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(caminho, FileMode.Create));
+				//criando o arquivo pdf em branco
+				var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
 
-				doc.Open();
-				Paragraph paragrafo = new Paragraph(texto, new Font(Font.NORMAL, 14));
-				paragrafo.Alignment = Element.ALIGN_JUSTIFIED;
-				doc.Add(paragrafo);
-				doc.Close();
+				document.Open();
+				var paragrafo = new Paragraph(text, new Font(Font.NORMAL, 14)) { Alignment = Element.ALIGN_JUSTIFIED };
+				document.Add(paragrafo);
+				document.Close();
 
 				return true;
 			}
 			catch
-			{
-				return false;
-			}
-
+			{ return false; }
 		}
-
-		/*public string LeTextoPdf(string filename)
-		{
-			PdfReader reader = new PdfReader(filename);
-			string pdfText = string.Empty;
-			ITextExtractionStrategy extraction = new SimpleTextExtractionStrategy();
-
-			for (int i = 1; i <= reader.NumberOfPages; i++)
-			{
-				string extractText = PdfTextExtractor.GetTextFromPage(reader, i, extraction);
-
-				extractText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default,
-					Encoding.UTF8, Encoding.Default.GetBytes(extractText)));
-				pdfText = pdfText + extractText;       
-			}
-			reader.Close();
-			return pdfText;
-		}*/
 	}
 }

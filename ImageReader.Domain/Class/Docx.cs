@@ -1,41 +1,33 @@
-﻿using System;
-using System.Drawing;
+﻿using Novacode;
+using System;
+using System.IO;
 
 namespace ImageReader.Domain
 {
 	public class Docx
 	{
-		/// <summary> Salva o texto em um arquivo .docx utilizando a biblioteca Docx </summary>	
-		public bool exportToDocx(string texto)
+		#region Methods
+		/// <summary>Cria um novo arquivo no formato .docx a partir de um texto.</summary>
+		/// <param name="text">Texto que irá popular o documento.</param>
+		/// <returns>True caso o documento seja criado e salvo com sucesso, false caso contrário.</returns>
+		public bool Create(string text)
 		{
-			String caminho = System.IO.Path.GetFullPath(@"..\files");
-			caminho += "\\documentoDocX.docx";
+			string filePath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory) + "imageReader.docx";
+
 			try
 			{
-				using (var docX = Novacode.DocX.Create(caminho))
+				using (var docx = DocX.Create(filePath))
 				{
-					var paragrafo1 = docX.InsertParagraph();
-					paragrafo1.LineSpacingAfter = 8;
-					paragrafo1.Append(texto);
-					paragrafo1.Alignment = Novacode.Alignment.both;
+					Paragraph paragraph = docx.InsertParagraph(text);
+					paragraph.Alignment = Alignment.left;
 
-					var paragrafo2 = docX.InsertParagraph();
-					paragrafo2.LineSpacingAfter = 8;
-					//paragrafo2.Append("Fonte Arial Negrito, Itálico, Sublinhado, Tamanho 18");
-					paragrafo2.Font(new FontFamily("Arial"));
-					paragrafo2.FontSize(18);
-					paragrafo2.Bold();
-					paragrafo2.Italic();
-					paragrafo2.UnderlineStyle(Novacode.UnderlineStyle.singleLine);
-
-					docX.Save();
+					docx.Save();
 					return true;
 				}
 			}
 			catch
-			{
-				return false;
-			}
+			{ return false; }
 		}
+		#endregion
 	}
 }

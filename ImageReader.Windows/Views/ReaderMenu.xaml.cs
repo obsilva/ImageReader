@@ -1,7 +1,6 @@
 ﻿using ImageReader.Domain;
 using Microsoft.Win32;
 using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -13,119 +12,107 @@ namespace ImageReader.Windows.Views
 	/// </summary>
 	public partial class ReaderMenu : UserControl
 	{
-		String idioma = "";
+		#region Properties
+		private string Language { get; set; }
+		#endregion
 
 		#region Constructors
 		public ReaderMenu()
-		{
-			InitializeComponent();
-			ObservableCollection<string> list = new ObservableCollection<string>();
-			list.Add("Português");
-			list.Add("Inglês");
-			cmbIdioma.ItemsSource = list;
-
-			cmbIdioma.SelectedIndex = 0;
-		}
+		{ InitializeComponent(); }
 		#endregion
+
 
 		#region Methods
-		private void ouvirTexto()
+		private void Play()
 		{
-			Speech fala = new Speech();
 			rtbTexto.SelectAll();
-			String texto = rtbTexto.Selection.Text;
-			fala.SoletraTexto(texto);
+			new Speech().FromText(rtbTexto.Selection.Text);
 		}
 
-		private void pausaTexto()
+		private void Pause()
 		{
 			Speech fala = new Speech();
-			fala.Pausa();
+			fala.Pause();
 		}
 		#endregion
+
 
 		#region Events
 		private void button_Click(object sender, RoutedEventArgs e)
 		{
-			String caminhoArquivo = "";
-			OpenFileDialog file = new OpenFileDialog();
-			file.Filter = "Image files |*.jpg;*.jpeg;*.png";
+			var file = new OpenFileDialog() { Filter = "Image files |*.jpg;*.jpeg;*.png" };
 
 			if (file.ShowDialog() == true)
 			{
-				caminhoArquivo = file.FileName;
-				String textoImagem = "";
-                OCR conversor = new OCR();
-				conversor.setImagem(caminhoArquivo);
-				conversor.setIdioma(this.idioma);
+				var ocr = new OCR() { ImagePath = file.FileName, Language = Language };
 
-				textoImagem = conversor.extraiTextoImagem();
 				rtbTexto.Document.Blocks.Clear();
-				rtbTexto.Document.Blocks.Add(new Paragraph(new Run(textoImagem)));
+				rtbTexto.Document.Blocks.Add(new Paragraph(new Run(ocr.FromImage())));
 			}
 		}
 
 		private void btnExportToDocx_Click(object sender, RoutedEventArgs e)
 		{
-			Docx writer = new Docx();
+			var docx = new Docx();
+
 			rtbTexto.SelectAll();
-			if (writer.exportToDocx(rtbTexto.Selection.Text))
-				MessageBox.Show("Arquivo salvo com sucesso!");
+			if (docx.Create(rtbTexto.Selection.Text))
+			{ MessageBox.Show("Arquivo salvo com sucesso!"); }
 			else
-				MessageBox.Show("Erro ao salvar arquivo!");
+			{ MessageBox.Show("Erro ao salvar arquivo!"); }
 		}
 
 		private void btnExportToPdf_Click(object sender, RoutedEventArgs e)
 		{
-			PDF writer = new PDF();
+			var pdf = new PDF();
+
 			rtbTexto.SelectAll();
-			if (writer.exportToPdf(rtbTexto.Selection.Text))
-				MessageBox.Show("Arquivo salvo com sucesso!");
+			if (pdf.Create(rtbTexto.Selection.Text))
+			{ MessageBox.Show("Arquivo salvo com sucesso!"); }
 			else
-				MessageBox.Show("Erro ao salvar arquivo!");
+			{ MessageBox.Show("Erro ao salvar arquivo!"); }
 		}
+
+		private void btnMouse_Click(object sender, RoutedEventArgs e)
+		{ new ImageCapture().Enable(); }
 
 		private void cmbIdioma_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			int index = cmbIdioma.SelectedIndex;
-			if (index == 0)
-				idioma = "por";
-			else if (index == 1)
-				idioma = "eng";
+			switch (cmbIdioma.SelectedIndex)
+			{
+				case 0:
+					Language = "por";
+					break;
+				case 1:
+					Language = "eng";
+					break;
+				default:
+					Language = "por";
+					break;
+			}
 		}
 
 		private void button1_Click(object sender, RoutedEventArgs e)
 		{
-			String caminhoArquivo = "";
-			OpenFileDialog file = new OpenFileDialog();
-			file.Filter = "PDF files | *.pdf";
+			var file = new OpenFileDialog() { Filter = "PDF files | *.pdf" };
 
 			if (file.ShowDialog() == true)
 			{
-				caminhoArquivo = file.FileName;
-				String textoImagem = "";
-				PDF pdf = new PDF();
+				var textoImagem = String.Empty;
+				var pdf = new PDF();
 
-				textoImagem = pdf.extraiImagens(caminhoArquivo, idioma);
 				rtbTexto.Document.Blocks.Clear();
-				rtbTexto.Document.Blocks.Add(new Paragraph(new Run(textoImagem)));
+				rtbTexto.Document.Blocks.Add(new Paragraph(new Run(pdf.ExtractImage(file.FileName, Language))));
 			}
 		}
 
 		private void checkBox_Checked(object sender, RoutedEventArgs e)
 		{
-			if (chkOuvirTexto.IsChecked == true)
-				ouvirTexto();
+			if (chkOuvirTexto.IsChecked.Value)
+			{ Play(); }
 			else
-				pausaTexto();
+			{ Pause(); }
 		}
-        #endregion
-
-        private void btnMouse_Click(object sender, RoutedEventArgs e)
-        {
-            
-            CaptureImage mouse = new CaptureImage();
-            mouse.StartMouse();
-        }
-    }
+		#endregion
+	}
 }

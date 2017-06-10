@@ -5,37 +5,29 @@ namespace ImageReader.Domain
 {
 	public class Speech
 	{
-		public void SoletraTexto(string strTexto)
+		public void FromText(string text)
 		{
-			//Inicializa uma nova instancia
-			SpeechSynthesizer synth = new SpeechSynthesizer();
+			string audioFilePath = System.IO.Path.GetTempPath() + "test.wav";
+			var synthesizer = new SpeechSynthesizer();
 
-			//Configura a saida de audio
-			synth.SetOutputToDefaultAudioDevice();
+			// Synthesizer configuration
+			synthesizer.SetOutputToDefaultAudioDevice();
+			synthesizer.SetOutputToWaveFile(audioFilePath,
+				new SpeechAudioFormatInfo(32000, AudioBitsPerSample.Sixteen, AudioChannel.Stereo));
 
-            // Configura o audio a ser salvo 
-            synth.SetOutputToWaveFile(@"C:\Users\Willyam\AppData\Local\Temp\test.wav",
-              new SpeechAudioFormatInfo(32000, AudioBitsPerSample.Sixteen, AudioChannel.Mono));
+			// Cria um  SoundPlayer para dar tocar o arquivo de audio.
+			var soundPlayer = new System.Media.SoundPlayer(audioFilePath);
 
-            // Cria um  SoundPlayer para dar tocar o arquivo de audio.
-            System.Media.SoundPlayer m_SoundPlayer =
-              new System.Media.SoundPlayer(@"C:\Users\Willyam\AppData\Local\Temp\test.wav");
+			//Fala
+			synthesizer.Speak(text.ToString());
+			soundPlayer.Play();
+		}
 
-            // Build a prompt.
-            PromptBuilder builder = new PromptBuilder();
-            builder.AppendText("This is sample output to a WAVE file.");
-
-            //Fala
-            synth.Speak(strTexto.ToString());
-            m_SoundPlayer.Play();
-        }
-
-		public void Pausa()
+		public void Pause()
 		{
 			//Inicializa uma nova instancia
 			SpeechSynthesizer synth = new SpeechSynthesizer();
 			synth.Pause();
 		}
-
 	}
 }
