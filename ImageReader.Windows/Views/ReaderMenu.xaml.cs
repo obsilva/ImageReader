@@ -19,19 +19,20 @@ namespace ImageReader.Windows.Views
 		#region Constructors
 		public ReaderMenu()
 		{ InitializeComponent(); }
-		#endregion
+        #endregion
+
+        Speech fala = new Speech();
 
 
-		#region Methods
-		private void Play()
+        #region Methods
+        private void Play()
 		{
 			rtbTexto.SelectAll();
-			new Speech().FromText(rtbTexto.Selection.Text);
+			fala.FromText(rtbTexto.Selection.Text);
 		}
 
 		private void Pause()
-		{
-			Speech fala = new Speech();
+		{			
 			fala.Pause();
 		}
 		#endregion
@@ -106,13 +107,17 @@ namespace ImageReader.Windows.Views
 			}
 		}
 
-		private void checkBox_Checked(object sender, RoutedEventArgs e)
-		{
-			if (chkOuvirTexto.IsChecked.Value)
-			{ Play(); }
-			else
-			{ Pause(); }
-		}
-		#endregion
-	}
+        private void btn_pause_Click(object sender, RoutedEventArgs e)
+        {
+            Pause();
+        }
+
+        private void btn_play_Click(object sender, RoutedEventArgs e)
+        {
+            Play();
+        }
+        #endregion
+
+
+    }
 }

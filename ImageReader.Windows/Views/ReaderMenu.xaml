@@ -1,100 +1,107 @@
 ﻿<UserControl x:Class="ImageReader.Windows.Views.ReaderMenu"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 mc:Ignorable="d"
-			 d:DesignHeight="500"
-			 d:DesignWidth="600">
-	<Grid>
-		<RichTextBox x:Name="rtbTexto"
-					 HorizontalAlignment="Left"
-					 Height="314"
-					 Margin="28,114,0,0"
-					 VerticalAlignment="Top"
-					 Width="541"
-					 RenderTransformOrigin="0.636,0.654">
-			<FlowDocument>
-				<Paragraph>
-					<Run Text="" />
-				</Paragraph>
-			</FlowDocument>
-		</RichTextBox>
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="500"
+             d:DesignWidth="600">
+    <Grid>
+        <RichTextBox x:Name="rtbTexto"
+                     HorizontalAlignment="Left"
+                     Height="314"
+                     Margin="28,114,0,0"
+                     VerticalAlignment="Top"
+                     Width="541"
+                     RenderTransformOrigin="0.636,0.654">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
 
-		<Button x:Name="button"
-				Content="Imagem"
-				HorizontalAlignment="Left"
-				Margin="28,23,0,0"
-				VerticalAlignment="Top"
-				Width="75"
-				RenderTransformOrigin="0.627,-1.447"
-				Click="button_Click" />
+        <Button x:Name="button"
+                Content="Imagem"
+                HorizontalAlignment="Left"
+                Margin="28,23,0,0"
+                VerticalAlignment="Top"
+                Width="75"
+                RenderTransformOrigin="0.627,-1.447"
+                Click="button_Click" />
 
-		<Label x:Name="label"
-			   Content="Idioma"
-			   Margin="299,23,255,0"
-			   VerticalAlignment="Top"
-			   Height="27"
-			   RenderTransformOrigin="0.5,0.5">
-			<Label.RenderTransform>
-				<TransformGroup>
-					<ScaleTransform />
-					<SkewTransform />
-					<RotateTransform Angle="-0.637" />
-					<TranslateTransform />
-				</TransformGroup>
-			</Label.RenderTransform>
-		</Label>
+        <Label x:Name="label"
+               Content="Idioma"
+               Margin="337,23,217,0"
+               VerticalAlignment="Top"
+               Height="27"
+               RenderTransformOrigin="0.5,0.5">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform Angle="-0.637" />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
 
-		<ComboBox x:Name="cmbIdioma"
-				  HorizontalAlignment="Right"
-				  Margin="0,23,58,0"
-				  VerticalAlignment="Top"
-				  Width="179"
-				  RenderTransformOrigin="1.15,0.335"
-				  SelectionChanged="cmbIdioma_SelectionChanged">
-			<ComboBoxItem Content="Português"
-						 IsSelected="True" />
-			<ComboBoxItem Content="Inglês" />
-		</ComboBox>
+        <ComboBox x:Name="cmbIdioma"
+                  HorizontalAlignment="Left"
+                  Margin="390,23,0,0"
+                  VerticalAlignment="Top"
+                  Width="179"
+                  RenderTransformOrigin="1.15,0.335"
+                  SelectionChanged="cmbIdioma_SelectionChanged">
+            <ComboBoxItem Content="Português"
+                          IsSelected="True" />
+            <ComboBoxItem Content="Inglês" />
+        </ComboBox>
 
-		<Button x:Name="btnExportToDocx"
-				Content="Exportar para Docx"
-				Height="32"
-				Margin="276,0,374,11"
-				VerticalAlignment="Bottom"
-				Click="btnExportToDocx_Click" />
+        <Button x:Name="btnExportToDocx"
+                Content="Exportar para Docx"
+                Height="32"
+                Margin="276,0,374,11"
+                VerticalAlignment="Bottom"
+                Click="btnExportToDocx_Click" />
 
-		<Button x:Name="btnExportToPdf"
-				Content="Exportar para Pdf"
-				Height="32"
-				Margin="0,0,216,11"
-				VerticalAlignment="Bottom"
-				HorizontalAlignment="Right"
-				Width="135"
-				Click="btnExportToPdf_Click" />
+        <Button x:Name="btnExportToPdf"
+                Content="Exportar para Pdf"
+                Margin="0,457,216,0"
+                HorizontalAlignment="Right"
+                Width="135"
+                Click="btnExportToPdf_Click"
+                Height="32"
+                VerticalAlignment="Top" />
 
-		<Button x:Name="button1"
-				Content="PDF"
-				HorizontalAlignment="Left"
-				Margin="146,24,0,0"
-				VerticalAlignment="Top"
-				Width="75"
-				Click="button1_Click" />
+        <Button x:Name="button1"
+                Content="PDF"
+                HorizontalAlignment="Left"
+                Margin="146,24,0,0"
+                VerticalAlignment="Top"
+                Width="75"
+                Click="button1_Click" />
 
-		<CheckBox x:Name="chkOuvirTexto"
-				  Content="Ouvir texto"
-				  HorizontalAlignment="Left"
-				  Margin="28,71,0,0"
-				  VerticalAlignment="Top"
-				  Checked="checkBox_Checked" />
-
-		<Button x:Name="btnMouse"
-				Content="Mouse Start"
-				HorizontalAlignment="Left"
-				Margin="146,67,0,0"
-				VerticalAlignment="Top"
-				Width="88"
-				Click="btnMouse_Click" />
-	</Grid>
+        <Button x:Name="btnMouse"
+                Content="Mouse Start"
+                HorizontalAlignment="Left"
+                Margin="481,67,0,0"
+                VerticalAlignment="Top"
+                Width="88"
+                Click="btnMouse_Click" />
+        <Button x:Name="btn_pause"
+                Content="Pause"
+                HorizontalAlignment="Left"
+                Margin="145,71,0,0"
+                VerticalAlignment="Top"
+                Width="76"
+                Click="btn_pause_Click" />
+        <Button x:Name="btn_play"
+                Content="Play"
+                HorizontalAlignment="Left"
+                Margin="28,71,0,0"
+                VerticalAlignment="Top"
+                Width="75"
+                Click="btn_play_Click" />
+    </Grid>
 </UserControl>

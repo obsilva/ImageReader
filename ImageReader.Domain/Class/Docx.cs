@@ -12,9 +12,9 @@ namespace ImageReader.Domain
 		/// <returns>True caso o documento seja criado e salvo com sucesso, false caso contrário.</returns>
 		public bool Create(string text)
 		{
-			string filePath = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory) + "imageReader.docx";
+			string filePath = System.IO.Path.GetFullPath(@"..\files") + "\\imageReader.docx";
 
-			try
+            try
 			{
 				using (var docx = DocX.Create(filePath))
 				{

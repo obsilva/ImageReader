@@ -16,10 +16,10 @@ namespace ImageReader.Domain
 		{
 			try
 			{
-				using (var engine = new TesseractEngine(Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory)
-					+ "tessdata", Language, EngineMode.Default))
-				{
-					using (Pix img = Pix.LoadFromFile(ImagePath))
+                String caminho = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory) + "tessdata";
+                using (var engine = new TesseractEngine(caminho, Language, EngineMode.Default))
+				{                    
+                    using (Pix img = Pix.LoadFromFile(ImagePath))
 					{
 						using (Page page = engine.Process(img))
 						{ return page.GetText(); }

@@ -66,10 +66,10 @@ namespace ImageReader.Domain
 				document.AddCreationDate(); //adicionando as configuracoes
 
 				//caminho onde sera criado o pdf + nome desejado 
-				string filePath = System.IO.Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory) + "imageReader.pdf";
+				string filePath = System.IO.Path.GetFullPath(@"..\files") + "\\imageReader.pdf";
 
-				//criando o arquivo pdf em branco
-				var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
+                //criando o arquivo pdf em branco
+                var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
 
 				document.Open();
 				var paragrafo = new Paragraph(text, new Font(Font.NORMAL, 14)) { Alignment = Element.ALIGN_JUSTIFIED };
