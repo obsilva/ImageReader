@@ -9,7 +9,7 @@ namespace ImageReader.Domain
 
 		public string Capture(Point point)
 		{
-			var bitmapImage = new Bitmap(60, 30);
+			var bitmapImage = new Bitmap(80, 30);
 
 			Graphics.FromImage(bitmapImage).CopyFromScreen(point, new Point(0, 0), new Size(1366, 768));
 

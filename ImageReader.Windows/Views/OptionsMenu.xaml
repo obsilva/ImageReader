@@ -6,16 +6,16 @@
 			 xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
 			 xmlns:Metro="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
 			 mc:Ignorable="d"
-			 d:DesignHeight="300"
-			 d:DesignWidth="715">
+			 Height="180"
+			 Width="715">
 	<Grid x:Name="grdMain">
 		<GroupBox x:Name="grpInterface"
 				  Header="Interface"
-				  Margin="10,136,0,0"
+				  Margin="10,10,0,0"
 				  VerticalAlignment="Top"
+				  Height="147"
 				  HorizontalAlignment="Left"
-				  Width="693.05"
-				  Height="146.546">
+				  Width="695">
 			<Grid>
 				<Button x:Name="btnLight"
 						Content="Claro"
@@ -62,21 +62,6 @@
 						 Custom:TextBoxHelper.ClearTextButton="True"
 						 LostFocus="ConfigurationsTextBox_LostFocus" />
 			</Grid>
-		</GroupBox>
-		
-		<GroupBox x:Name="grpInterface_Copy"
-				  Header="FUNCIONALIDADES"
-				  Margin="10,35,0,0"
-				  VerticalAlignment="Top"
-				  HorizontalAlignment="Left"
-				  Width="693"
-				  Height="80">
-			<CheckBox x:Name="chkSpeech"
-					  Content="Ouvir texto"
-					  HorizontalAlignment="Left"
-					  Height="100"
-					  Margin="10,-30,0,-29"
-					  VerticalAlignment="Top" />
 		</GroupBox>
 	</Grid>
 </UserControl>

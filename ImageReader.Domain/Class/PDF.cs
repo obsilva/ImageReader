@@ -3,6 +3,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ImageReader.Domain
 {
@@ -50,36 +51,41 @@ namespace ImageReader.Domain
 					}
 				}
 
-				File.Delete(imagePath);
+				if (!String.IsNullOrWhiteSpace(imagePath))
+				{ File.Delete(imagePath); }
 
 				return imageText;
 			}
 		}
 
 		/// <summary>Exporta o texto para um arquivo PDF. </summary>
-		public bool Create(string text)
+		public void Create(string text)
 		{
-			try
+			var saveFileDialog = new SaveFileDialog()
 			{
+				FileName = "imageReader",
+				Filter = "PDF Documents | *.pdf"
+			};
+
+			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				string documentFilePath = saveFileDialog.FileName;
+				documentFilePath = documentFilePath.Replace(".pdf", "");
+				documentFilePath = documentFilePath + ".pdf";
+
+
 				var document = new Document(PageSize.A4); //criando e estipulando o tipo da folha usada
 				document.SetMargins(40, 40, 40, 80); //estibulando o espaçamento das margens 
 				document.AddCreationDate(); //adicionando as configuracoes
 
-				//caminho onde sera criado o pdf + nome desejado 
-				string filePath = System.IO.Path.GetFullPath(@"..\files") + "\\imageReader.pdf";
-
-                //criando o arquivo pdf em branco
-                var writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
+				//criando o arquivo pdf em branco
+				var writer = PdfWriter.GetInstance(document, new FileStream(documentFilePath, FileMode.Create));
 
 				document.Open();
 				var paragrafo = new Paragraph(text, new Font(Font.NORMAL, 14)) { Alignment = Element.ALIGN_JUSTIFIED };
 				document.Add(paragrafo);
 				document.Close();
-
-				return true;
 			}
-			catch
-			{ return false; }
 		}
 	}
 }

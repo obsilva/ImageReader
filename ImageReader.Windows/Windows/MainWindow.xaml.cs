@@ -27,6 +27,7 @@ namespace ImageReader.Windows.Windows
 		}
 		#endregion
 
+
 		#region Properties
 		/// <summary> Recupera a instância corrente da janela. </summary>
 		public static MainWindow Current { get; private set; }

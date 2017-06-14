@@ -1,34 +1,61 @@
-﻿using System.Media;
-using System.Speech.AudioFormat;
+﻿using System.Speech.AudioFormat;
 using System.Speech.Synthesis;
+using System.Windows.Forms;
 
 namespace ImageReader.Domain
 {
 	public class Speech
 	{
-        SoundPlayer soundPlayer;
-         
-        public void FromText(string text)
+		#region Properties
+		private SpeechSynthesizer Synthesizer { get; set; }
+		#endregion
+
+
+		#region Constructors
+		public Speech() => Synthesizer = new SpeechSynthesizer();
+		#endregion
+
+
+		#region Methods
+		public void FromText(string text)
 		{
-			string audioFilePath = System.IO.Path.GetFullPath(@"..\files") + "\\test.wav";
-			var synthesizer = new SpeechSynthesizer();
-
-			// Synthesizer configuration
-			synthesizer.SetOutputToDefaultAudioDevice();
-			synthesizer.SetOutputToWaveFile(audioFilePath,
-				new SpeechAudioFormatInfo(32000, AudioBitsPerSample.Sixteen, AudioChannel.Stereo));
-
-            // Cria um  SoundPlayer para dar tocar o arquivo de audio.
-            soundPlayer = new SoundPlayer(audioFilePath);
-
-            //Fala
-            synthesizer.Speak(text.ToString());
-			soundPlayer.Play();
+			if (Synthesizer.State == SynthesizerState.Paused)
+			{ Synthesizer.Resume(); }
+			else if (Synthesizer.State == SynthesizerState.Ready)
+			{ Synthesizer.Speak(text); }
 		}
 
 		public void Pause()
 		{
-            soundPlayer.Stop();
-        }
+			if (Synthesizer.State == SynthesizerState.Speaking)
+			{ Synthesizer.Pause(); }
+		}
+
+		public void ExportAudio(string text)
+		{
+			var synth = new SpeechSynthesizer();
+			var saveFileDialog = new SaveFileDialog()
+			{
+				FileName = "imageReader",
+				Filter = "Audio Files | *.wav"
+			};
+
+			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				// Now here's our save folder
+				string audioFilePath = saveFileDialog.FileName;
+				audioFilePath = audioFilePath.Replace(".wav", "");
+				audioFilePath = audioFilePath + ".wav";
+
+				synth.SetOutputToDefaultAudioDevice();
+				synth.SetOutputToWaveFile(audioFilePath,
+					new SpeechAudioFormatInfo(32000, AudioBitsPerSample.Sixteen, AudioChannel.Stereo));
+
+				synth.Volume = 100;
+				synth.Speak(text);
+				synth.Dispose();
+			}
+		}
+		#endregion
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using ImageReader.Domain;
 using Microsoft.Win32;
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -13,33 +14,40 @@ namespace ImageReader.Windows.Views
 	public partial class ReaderMenu : UserControl
 	{
 		#region Properties
-		private string Language { get; set; }
+		private new string Language { get; set; }
+
+		private Speech Speak { get; set; }
+
+		private string TextBoxContent { get { rtxtTexto.SelectAll(); return rtxtTexto.Selection.Text; } }
 		#endregion
+
 
 		#region Constructors
 		public ReaderMenu()
-		{ InitializeComponent(); }
-        #endregion
-
-        Speech fala = new Speech();
-
-
-        #region Methods
-        private void Play()
 		{
-			rtbTexto.SelectAll();
-			fala.FromText(rtbTexto.Selection.Text);
+			InitializeComponent();
+			Speak = new Speech();
 		}
+		#endregion
 
-		private void Pause()
-		{			
-			fala.Pause();
-		}
+
+		#region Methods
+		private void Play() => Speak.FromText(rtxtTexto.Selection.Text);
+
+		private void Pause() => Speak.Pause();
+
+		private void ExportaAudio() => Speak.ExportAudio(TextBoxContent);
 		#endregion
 
 
 		#region Events
-		private void button_Click(object sender, RoutedEventArgs e)
+		private void btnExportToAudio_Click(object sender, RoutedEventArgs e) => ExportaAudio();
+
+		private void btnExportToDocx_Click(object sender, RoutedEventArgs e) => new Docx().Create(TextBoxContent);
+
+		private void btnExportToPDF_Click(object sender, RoutedEventArgs e) => new PDF().Create(TextBoxContent);
+
+		private void btnOpenImage_Click(object sender, RoutedEventArgs e)
 		{
 			var file = new OpenFileDialog() { Filter = "Image files |*.jpg;*.jpeg;*.png" };
 
@@ -47,35 +55,39 @@ namespace ImageReader.Windows.Views
 			{
 				var ocr = new OCR() { ImagePath = file.FileName, Language = Language };
 
-				rtbTexto.Document.Blocks.Clear();
-				rtbTexto.Document.Blocks.Add(new Paragraph(new Run(ocr.FromImage())));
+				rtxtTexto.Document.Blocks.Clear();
+				rtxtTexto.Document.Blocks.Add(new Paragraph(new Run(ocr.FromImage())));
 			}
+
+			Speak = new Speech();
 		}
 
-		private void btnExportToDocx_Click(object sender, RoutedEventArgs e)
+		private void btnOpenPDF_Click(object sender, RoutedEventArgs e)
 		{
-			var docx = new Docx();
+			var file = new OpenFileDialog() { Filter = "PDF files | *.pdf" };
 
-			rtbTexto.SelectAll();
-			if (docx.Create(rtbTexto.Selection.Text))
-			{ MessageBox.Show("Arquivo salvo com sucesso!"); }
-			else
-			{ MessageBox.Show("Erro ao salvar arquivo!"); }
+			if (file.ShowDialog() == true)
+			{
+				var textoImagem = String.Empty;
+				var pdf = new PDF();
+
+				rtxtTexto.Document.Blocks.Clear();
+				rtxtTexto.Document.Blocks.Add(new Paragraph(new Run(pdf.ExtractImage(file.FileName, Language))));
+			}
+
+			Speak = new Speech();
 		}
 
-		private void btnExportToPdf_Click(object sender, RoutedEventArgs e)
+		private void btnPauseSpeech_Click(object sender, RoutedEventArgs e) => Pause();
+
+		private void btnPlaySpeech_Click(object sender, RoutedEventArgs e)
 		{
-			var pdf = new PDF();
-
-			rtbTexto.SelectAll();
-			if (pdf.Create(rtbTexto.Selection.Text))
-			{ MessageBox.Show("Arquivo salvo com sucesso!"); }
-			else
-			{ MessageBox.Show("Erro ao salvar arquivo!"); }
+			rtxtTexto.SelectAll();
+			var t = new Thread(Play);
+			t.Start();
 		}
 
-		private void btnMouse_Click(object sender, RoutedEventArgs e)
-		{ new ImageCapture().Enable(); }
+		private void btnSpeechWithMouse_Click(object sender, RoutedEventArgs e) => new ImageCapture().Enable();
 
 		private void cmbIdioma_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
@@ -92,32 +104,6 @@ namespace ImageReader.Windows.Views
 					break;
 			}
 		}
-
-		private void button1_Click(object sender, RoutedEventArgs e)
-		{
-			var file = new OpenFileDialog() { Filter = "PDF files | *.pdf" };
-
-			if (file.ShowDialog() == true)
-			{
-				var textoImagem = String.Empty;
-				var pdf = new PDF();
-
-				rtbTexto.Document.Blocks.Clear();
-				rtbTexto.Document.Blocks.Add(new Paragraph(new Run(pdf.ExtractImage(file.FileName, Language))));
-			}
-		}
-
-        private void btn_pause_Click(object sender, RoutedEventArgs e)
-        {
-            Pause();
-        }
-
-        private void btn_play_Click(object sender, RoutedEventArgs e)
-        {
-            Play();
-        }
-        #endregion
-
-
-    }
+		#endregion
+	}
 }

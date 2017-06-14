@@ -1,6 +1,5 @@
 ﻿using Novacode;
-using System;
-using System.IO;
+using System.Windows.Forms;
 
 namespace ImageReader.Domain
 {
@@ -10,23 +9,28 @@ namespace ImageReader.Domain
 		/// <summary>Cria um novo arquivo no formato .docx a partir de um texto.</summary>
 		/// <param name="text">Texto que irá popular o documento.</param>
 		/// <returns>True caso o documento seja criado e salvo com sucesso, false caso contrário.</returns>
-		public bool Create(string text)
+		public void Create(string text)
 		{
-			string filePath = System.IO.Path.GetFullPath(@"..\files") + "\\imageReader.docx";
-
-            try
+			var saveFileDialog = new SaveFileDialog()
 			{
-				using (var docx = DocX.Create(filePath))
+				FileName = "imageReader",
+				Filter = "Word Documents | *.docx"
+			};
+
+			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				string documentFilePath = saveFileDialog.FileName;
+				documentFilePath = documentFilePath.Replace(".docx", "");
+				documentFilePath = documentFilePath + ".docx";
+
+				using (var docx = DocX.Create(documentFilePath))
 				{
 					Paragraph paragraph = docx.InsertParagraph(text);
 					paragraph.Alignment = Alignment.left;
 
 					docx.Save();
-					return true;
 				}
 			}
-			catch
-			{ return false; }
 		}
 		#endregion
 	}
