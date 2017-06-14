@@ -286,6 +286,13 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
+# Allow the tessdata folder
+!ImageReader.Windows/bin
+ImageReader.Windows/bin/*
+!ImageReader.Windows/bin/Debug/
+ImageReader.Windows/bin/Debug/*
+!ImageReader.Windows/bin/Debug/tessdata
+
 # Allow the tesseract folder and the packages folder.
 !ImageReader.Domain/x64/*
 !ImageReader.Domain/x86/*
